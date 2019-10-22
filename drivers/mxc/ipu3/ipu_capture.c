@@ -100,6 +100,7 @@ ipu_csi_init_interface(struct ipu_soc *ipu, uint16_t width, uint16_t height,
 		break;
 	case IPU_PIX_FMT_GENERIC:
 	case IPU_PIX_FMT_GENERIC_16:
+	case IPU_PIX_FMT_GREY:
 		cfg_param.data_fmt = CSI_SENS_CONF_DATA_FMT_BAYER;
 		break;
 	case IPU_PIX_FMT_RGB565:

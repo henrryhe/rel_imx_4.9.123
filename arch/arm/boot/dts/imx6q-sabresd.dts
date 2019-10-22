@@ -18,7 +18,84 @@
 / {
 	model = "Freescale i.MX6 Quad SABRE Smart Device Board";
 	compatible = "fsl,imx6q-sabresd", "fsl,imx6q";
+
+    pwm-beeper {
+        compatible = "pwm-beeper";
+        pwms = <&pwm2 0 500000>;
+        pwm-names = "pwm-beeper";
+        beeper-hz = <2000>;
+    };
 };
+&iomuxc {
+	imx6qdl-sabresd {
+		/* add pinmux for gt9271 touchscreen */
+		pinctrl_gpio_gt9271: pinctrl_gpio_gt9271 {
+			fsl,pins = <
+				MX6QDL_PAD_DISP0_DAT2__GPIO4_IO23	0x1b0b0
+				MX6QDL_PAD_DISP0_DAT3__GPIO4_IO24   0x1b0b0
+				>;
+		};
+
+		/*add pinmux gpio keys*/
+		pinctrl_gpio_keys_sk: pinctrl_gpio_keys_sk {
+			fsl,pins = <
+				MX6QDL_PAD_NANDF_WP_B__GPIO6_IO09  0x1b0b0
+				MX6QDL_PAD_NANDF_D2__GPIO2_IO02    0x1b0b0
+				MX6QDL_PAD_GPIO_9__GPIO1_IO09      0x1b0b0
+				MX6QDL_PAD_GPIO_18__GPIO7_IO13     0x1b0b0
+			>;
+		};
+
+		/*add pinmux gpio pwm2 buzzer*/
+		pinctrl_gpio_pwm2: pinctrl_gpio_pwm2 {
+			fsl,pins = <
+				MX6QDL_PAD_SD1_DAT2__PWM2_OUT 0x1b0b1
+			>;
+		};
+	};
+};
+&i2c3 {
+	status = "okay";
+	gt9xx@5d {
+		compatible = "goodix,gt9xx";
+		status = "okay";
+		reg = <0x5d>; 
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_gt9271>;
+		interrupt-parent = <&gpio4>;
+		interrupts = <24 0x2>;
+		reset-gpios = <&gpio4 23 GPIO_ACTIVE_HIGH>;
+		irq-gpios = <&gpio4 24 GPIO_ACTIVE_LOW>;
+		irq-flags = <0x2>;
+
+		touchscreen-max-id = <10>;
+		touchscreen-size-x = <4096>;
+		touchscreen-size-y = <4096>;
+		touchscreen-max-w = <1024>;
+		touchscreen-max-p = <1024>;
+
+		goodix,slide-wakeup = <0>;
+		goodix,type-a-report = <0>;
+		goodix,driver-send-cfg = <0>;
+		goodix,resume-in-workqueue = <0>;
+		goodix,int-sync = <1>;
+		goodix,swap-x2y = <0>;
+		goodix,esd-protect = <1>;
+		goodix,auto-update-cfg = <0>;
+		goodix,power-off-sleep = <0>;
+		goodix,pen-suppress-finger = <0>;
+		goodix,cfg-group0 = [
+			53 D0 02 00 05 05 F5 D5 21 48 2D 0F 5A 41 0E 05 00 00 32 32 20 00 05 14 14 1A 14 8B 2B 00
+		];
+	};
+};
+
+&pwm2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio_pwm2>;
+	status = "okay";
+};
+
 
 &battery {
 	offset-charger = <1900>;

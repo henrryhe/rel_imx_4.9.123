@@ -391,7 +391,8 @@ static inline int valid_mode(u32 palette)
 		(palette == V4L2_PIX_FMT_YUYV) ||
 		(palette == V4L2_PIX_FMT_YUV420) ||
 		(palette == V4L2_PIX_FMT_YVU420) ||
-		(palette == V4L2_PIX_FMT_NV12));
+		(palette == V4L2_PIX_FMT_NV12) ||
+		(palette == V4L2_PIX_FMT_GREY));
 }
 
 /*!
@@ -914,6 +915,10 @@ static int mxc_v4l2_s_fmt(cam_data *cam, struct v4l2_format *f)
 			size = f->fmt.pix.width * f->fmt.pix.height * 3 / 2;
 			bytesperline = f->fmt.pix.width;
 			break;
+		case V4L2_PIX_FMT_GREY:
+			size = f->fmt.pix.width * f->fmt.pix.height;
+			bytesperline = f->fmt.pix.width;
+			break;
 		default:
 			break;
 		}
@@ -1048,6 +1053,17 @@ static int mxc_v4l2_g_ctrl(cam_data *cam, struct v4l2_control *c)
 		}
 		break;
 	case V4L2_CID_BLACK_LEVEL:
+		if (cam->sensor) {
+			c->value = cam->ae_mode;
+			status = vidioc_int_g_ctrl(cam->sensor, c);
+			cam->ae_mode = c->value;
+		} else {
+			pr_err("ERROR: v4l2 capture: slave not found!\n");
+			status = -ENODEV;
+		}
+		break;
+	case V4L2_CID_GAIN:	
+	case V4L2_CID_EXPOSURE:
 		if (cam->sensor) {
 			c->value = cam->ae_mode;
 			status = vidioc_int_g_ctrl(cam->sensor, c);
@@ -1212,6 +1228,7 @@ static int mxc_v4l2_s_ctrl(cam_data *cam, struct v4l2_control *c)
 			ret = -ENODEV;
 		}
 		break;
+	case V4L2_CID_GAIN:	
 	case V4L2_CID_EXPOSURE:
 		if (cam->sensor) {
 			cam->ae_mode = c->value;

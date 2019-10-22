@@ -36,7 +36,7 @@ static void __pwm_beeper_set(struct pwm_beeper *beeper)
 	unsigned long period = beeper->period;
 
 	if (period) {
-		pwm_config(beeper->pwm, period / 2, period);
+		pwm_config(beeper->pwm, period / 10, period);
 		pwm_enable(beeper->pwm);
 	} else
 		pwm_disable(beeper->pwm);

@@ -499,4 +499,5 @@ static inline void print_hex_dump_debug(const char *prefix_str, int prefix_type,
 }
 #endif
 
+#define KER_LOG(formt,args...)	printk(KERN_INFO"%s-%d :: "formt,__FUNCTION__,__LINE__,##args);
 #endif

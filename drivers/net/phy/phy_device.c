@@ -498,6 +498,7 @@ static int get_phy_id(struct mii_bus *bus, int addr, u32 *phy_id,
 {
 	int phy_reg;
 
+    msleep(2);
 	if (is_c45)
 		return get_phy_c45_ids(bus, addr, phy_id, c45_ids);
 
