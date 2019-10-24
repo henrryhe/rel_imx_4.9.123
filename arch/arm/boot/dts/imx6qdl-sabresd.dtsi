@@ -1132,6 +1132,7 @@
 	keep-power-in-suspend;
 	enable-sdio-wakeup;
 	status = "okay";
+	status = "disabled";
 };
 
 &usdhc3 {
@@ -1154,6 +1155,7 @@
 	no-1-8-v;
 	keep-power-in-suspend;
 	status = "okay";
+	status = "disabled";
 };
 
 &wdog2 {
