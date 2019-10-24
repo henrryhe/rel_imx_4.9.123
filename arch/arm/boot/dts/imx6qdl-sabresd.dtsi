@@ -1155,7 +1155,6 @@
 	no-1-8-v;
 	keep-power-in-suspend;
 	status = "okay";
-	status = "disabled";
 };
 
 &wdog2 {
