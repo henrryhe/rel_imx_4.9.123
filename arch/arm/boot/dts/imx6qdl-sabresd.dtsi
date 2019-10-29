@@ -188,6 +188,7 @@
             gpios = <&gpio2 2 GPIO_ACTIVE_LOW>;
 			wakeup-source;
             linux,code = <KEY_DOWN>;
+		    status = "disabled";
         };
 
         key-right {
@@ -933,7 +934,6 @@
 				MX6QDL_PAD_NANDF_D6__SD2_DATA6		0x17059
 				MX6QDL_PAD_NANDF_D7__SD2_DATA7		0x17059
 			>;
-	        status = "disable";
 		};
 
 		pinctrl_usdhc3: usdhc3grp {
@@ -1126,13 +1126,12 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_usdhc2>;
 	bus-width = <8>;
-	cd-gpios = <&gpio2 2 GPIO_ACTIVE_LOW>;
-	wp-gpios = <&gpio2 3 GPIO_ACTIVE_HIGH>;
+	/*cd-gpios = <&gpio2 2 GPIO_ACTIVE_LOW>; */
+	/*wp-gpios = <&gpio2 3 GPIO_ACTIVE_HIGH>; */
 	no-1-8-v;
 	keep-power-in-suspend;
 	enable-sdio-wakeup;
 	status = "okay";
-	status = "disabled";
 };
 
 &usdhc3 {
