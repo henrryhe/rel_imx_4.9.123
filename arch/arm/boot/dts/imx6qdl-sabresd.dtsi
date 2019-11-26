@@ -169,6 +169,7 @@
 			linux,code = <KEY_VOLUMEDOWN>;
 		    status = "disabled";
 		};
+        /*add for sk-perimeter key*/
         key-up {
             label = "Button Up";
             gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
@@ -188,7 +189,6 @@
             gpios = <&gpio2 2 GPIO_ACTIVE_LOW>;
 			wakeup-source;
             linux,code = <KEY_DOWN>;
-		    status = "disabled";
         };
 
         key-right {
@@ -236,8 +236,8 @@
 	mxcfb1: fb@0 {
 		compatible = "fsl,mxc_sdc_fb";
 		disp_dev = "ldb";
-		interface_pix_fmt = "RGB666";
-		default_bpp = <16>;
+		interface_pix_fmt = "RGB24";
+		default_bpp = <32>;
 		int_clk = <0>;
 		late_init = <0>;
 		status = "disabled";
@@ -279,7 +279,7 @@
 		compatible = "fsl,lcd";
 		ipu_id = <0>;
 		disp_id = <0>;
-		default_ifmt = "RGB565";
+		default_ifmt = "RGB24";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_ipu1>;
 	    status = "disable";
@@ -987,7 +987,7 @@
 
 	lvds-channel@0 {
 		fsl,data-mapping = "spwg";
-		fsl,data-width = <18>;
+		fsl,data-width = <24>;
 		status = "okay";
 
 		display-timings {
@@ -1008,7 +1008,7 @@
 
 	lvds-channel@1 {
 		fsl,data-mapping = "spwg";
-		fsl,data-width = <18>;
+		fsl,data-width = <24>;
 		primary;
 		status = "okay";
 
